@@ -7,7 +7,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.xr.dao.DemoDao;
+import com.xr.dao.impl.DemoDaoImpl;
+import com.xr.dao.interfaces.DemoDao;
 import com.xr.entity.DemoEntity;
 
 
@@ -15,7 +16,7 @@ import com.xr.entity.DemoEntity;
 public class DemoService {
 	
 	@Autowired
-	DemoDao dao;
+	DemoDaoImpl dao;
 	
 	@Transactional
 	public List<DemoEntity> test(){
@@ -24,9 +25,16 @@ public class DemoService {
 		DemoEntity data = new DemoEntity();
 		data.setId(Math.round(1000));
 		
-		dao.save(data);
+		dao.getCrud().save(data);
+		dao.getCrud().flush();
 		
-		return dao.findAll();
+		List<DemoEntity> list = dao.getCrud().findAll();
+		
+		dao.execute("delete from t_demo");
+		
+		dao.test();
+		
+		return list;
 	}
 
 }
