@@ -23,6 +23,7 @@ public class RootApplication implements  ServletContextInitializer {
 
     public static void main(String[] args) {
         SpringApplication.run(RootApplication.class, args);
+        System.err.println("## spring boot startup success...");
     }
 
 	@Override
